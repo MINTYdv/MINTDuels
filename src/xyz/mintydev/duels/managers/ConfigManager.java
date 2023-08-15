@@ -10,17 +10,7 @@ public class ConfigManager {
 	public ConfigManager(MINTDuels main) {
 		this.main = main;
 		instance = this;
-		
-		loadArenas();
-		loadKits();
-	}
-	
-	void loadArenas() {
-		
-	}
-	
-	void loadKits() {
-		
+		main.saveDefaultConfig();
 	}
 	
 	public static ConfigManager get() {
