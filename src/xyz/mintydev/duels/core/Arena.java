@@ -13,6 +13,8 @@ public class Arena {
 	
 	private final Cuboid area;
 	
+	private boolean used;
+	
 	public Arena(String id, String displayName, World world, Location point1, Location point2, Location spawn1, Location spawn2) {
 		this.id = id;
 		this.displayName = displayName;
@@ -21,6 +23,15 @@ public class Arena {
 		this.spawn2 = spawn2;
 		
 		this.area = new Cuboid(point1, point2);
+		this.used = false;
+	}
+	
+	public boolean isUsed() {
+		return used;
+	}
+	
+	public void setUsed(boolean used) {
+		this.used = used;
 	}
 
 	public String getId() {

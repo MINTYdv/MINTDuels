@@ -31,7 +31,7 @@ public class KitManager extends ConfigFileHandler {
 		for(String kitID : section.getKeys(false)) {
 			final ConfigurationSection sub = section.getConfigurationSection(kitID);
 			
-			final String displayName = sub.getString("name");
+			final String displayName = sub.getString("name").replaceAll("&", "§");
 			
 			final ConfigurationSection armorSec = sub.getConfigurationSection("armor");
 			Map<ArmorPiece, ItemStack> armor = new HashMap<>();
@@ -59,6 +59,13 @@ public class KitManager extends ConfigFileHandler {
 			final Kit kit = new Kit(kitID, displayName, armor, inventory, kitID.equalsIgnoreCase("default"));
 			loadKit(kit);
 		}
+	}
+	
+	public Kit getByID(String ID) {
+		for(Kit kit : kits) {
+			if(kit.getId().equalsIgnoreCase(ID)) return kit;
+		}
+		return null;
 	}
 	
 	public void loadKit(Kit kit) {

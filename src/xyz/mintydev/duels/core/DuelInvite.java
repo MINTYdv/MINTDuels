@@ -1,16 +1,41 @@
 package xyz.mintydev.duels.core;
 
+import java.util.Date;
+
 import org.bukkit.entity.Player;
 
 public class DuelInvite {
 
 	private final Player sender, target;
 	private final Kit kit;
+	private final Date date;
+	private boolean accepted;
 	
 	public DuelInvite(Player sender, Player target, Kit kit) {
 		this.sender = sender;
 		this.target = target;
 		this.kit = kit;
+		this.date = new Date();
+		accepted = false;
+	}
+	
+	public String replacePlaceholders(String base) {
+		base = base.replaceAll("%sender%", sender.getName());
+		base = base.replaceAll("%target%", target.getName());
+		base = base.replaceAll("%kit%", kit.getDisplayName());
+		return base;
+	}
+	
+	public boolean isAccepted() {
+		return accepted;
+	}
+	
+	public void setAccepted(boolean accepted) {
+		this.accepted = accepted;
+	}
+	
+	public Date getDate() {
+		return date;
 	}
 	
 	public Player getSender() {

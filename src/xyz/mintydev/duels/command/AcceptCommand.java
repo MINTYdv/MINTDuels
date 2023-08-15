@@ -5,24 +5,25 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import xyz.mintydev.duels.MINTDuels;
+import xyz.mintydev.duels.core.DuelInvite;
 import xyz.mintydev.duels.core.Kit;
 import xyz.mintydev.duels.managers.LangManager;
 import xyz.mintydev.duels.util.command.Command;
 import xyz.mintydev.duels.util.command.PermissionRequirement;
 import xyz.mintydev.duels.util.command.PlayerRequirement;
 
-public class DuelCommand extends Command {
+public class AcceptCommand extends Command {
 
 	private final MINTDuels main;
 	
 	
-	public DuelCommand(MINTDuels main, String... aliases) {
+	public AcceptCommand(MINTDuels main, String... aliases) {
 		super(aliases);
 		this.main = main;
 		
 		/* Setup command */
 		this.setMinArgs(1);
-		this.setMaxArgs(2);
+		this.setMaxArgs(1);
 		this.addRequirement(new PermissionRequirement("mintduels.command.duel"));
 		this.addRequirement(new PlayerRequirement());
 	}
@@ -32,7 +33,7 @@ public class DuelCommand extends Command {
 		
 		final Player player = (Player) sender;
 		
-		if(args == null || args.length < 2) {
+		if(args == null || args.length < 1) {
 			wrongUsage(sender, label);
 			return false;
 		}
@@ -45,31 +46,20 @@ public class DuelCommand extends Command {
 		
 		final Player target = Bukkit.getPlayer(playerName);
 		
-		if(main.getDuelManager().getInvite(player, target) != null) {
-			player.sendMessage(LangManager.getMessage("commands.invite.errors.already-invited"));
+		if(main.getDuelManager().getInvite(target, player) == null) {
+			player.sendMessage(LangManager.getMessage("commands.accept.errors.no-invite"));
 			return false;
 		}
 		
-		Kit kit = null;
+		final DuelInvite invite = main.getDuelManager().getInvite(target, player);
 		
-		if(args.length >= 2) {
-			final String kitID = args[1];
-			kit = main.getKitManager().getByID(kitID);
-			if(kit == null) {
-				player.sendMessage(LangManager.getMessage("commands.duel.errors.invalid-kit"));
-				return false;
-			}
-		}
-		
-		if(kit == null) kit = main.getKitManager().getByID("default");
-		
-		main.getDuelManager().sendInvite(player, target, kit);
+		main.getDuelManager().acceptInvite(invite);
 		return true;
 	}
 
 	@Override
 	public void wrongUsage(CommandSender sender, String label) {
-		String res = String.format("§cUsage: /" + label + " <player> [kit]");
+		String res = String.format("§cUsage: /" + label + " <player>");
 		sender.sendMessage(res);
 	}
 

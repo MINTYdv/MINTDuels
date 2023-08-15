@@ -1,6 +1,9 @@
 package xyz.mintydev.duels.managers;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
@@ -25,6 +28,17 @@ public class ArenaManager extends ConfigFileHandler {
 		loadArenas();
 	}
 	
+	public Arena getAvailableArena() {
+		
+		List<Arena> toCheck = new ArrayList<>(arenas);
+		Collections.shuffle(toCheck);
+		
+		for(final Arena arena : toCheck) {
+			if(!arena.isUsed()) return arena;
+		}
+		return null;
+	}
+	
 	private void loadArenas() {
 		final ConfigurationSection sec = getDataFile().getConfigurationSection("arenas");
 		for(String arenaID : sec.getKeys(false)) {
@@ -36,7 +50,7 @@ public class ArenaManager extends ConfigFileHandler {
 			
 			final ConfigurationSection sub = sec.getConfigurationSection(arenaID);
 			
-			final String displayName = sub.getString("name");
+			final String displayName = sub.getString("name").replaceAll("&", "§");
 			
 			final String worldName = sub.getString("world");
 			final World world = Bukkit.getWorld(worldName);

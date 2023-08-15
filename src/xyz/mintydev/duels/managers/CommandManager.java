@@ -10,6 +10,7 @@ import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
 
 import xyz.mintydev.duels.MINTDuels;
+import xyz.mintydev.duels.command.AcceptCommand;
 import xyz.mintydev.duels.command.DuelCommand;
 import xyz.mintydev.duels.util.command.Command;
 import xyz.mintydev.duels.util.command.CommandRequirement;
@@ -32,7 +33,8 @@ public class CommandManager implements CommandExecutor {
 		retrieveCommandMap();
 		
 		/* Register the plugin's commands */
-		addCommand(new DuelCommand("duel"));
+		addCommand(new DuelCommand(main, "duel", "fight", "duels"));
+		addCommand(new AcceptCommand(main, "accept"));
 		
 		registerCommands();
 	}
