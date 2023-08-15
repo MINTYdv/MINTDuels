@@ -2,12 +2,15 @@ package xyz.mintydev.duels.managers;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import xyz.mintydev.duels.MINTDuels;
+import xyz.mintydev.duels.core.Arena;
 
 public class ArenaManager {
 
@@ -17,6 +20,8 @@ public class ArenaManager {
 	private static FileConfiguration dataFile;
 	
 	private final String fileName = "arenas.yml";
+	
+	private Set<Arena> arenas = new HashSet<>();
 	
 	public ArenaManager(MINTDuels main) {
 		this.main = main;
@@ -43,6 +48,10 @@ public class ArenaManager {
     }
     
     /* Getters & Setters */
+    
+    public Set<Arena> getArenas() {
+		return arenas;
+	}
     
     public static FileConfiguration getDataFile() {
 		return dataFile;
