@@ -2,12 +2,14 @@ package xyz.mintydev.duels;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
+import xyz.mintydev.duels.listener.GameListener;
 import xyz.mintydev.duels.managers.ArenaManager;
 import xyz.mintydev.duels.managers.CommandManager;
 import xyz.mintydev.duels.managers.ConfigManager;
 import xyz.mintydev.duels.managers.DuelManager;
 import xyz.mintydev.duels.managers.KitManager;
 import xyz.mintydev.duels.managers.LangManager;
+import xyz.mintydev.duels.managers.PlayerManager;
 
 public class MINTDuels extends JavaPlugin {
 
@@ -19,6 +21,7 @@ public class MINTDuels extends JavaPlugin {
 	private DuelManager duelManager;
 	private ConfigManager configManager;
 	private CommandManager commandManager;
+	private PlayerManager playerManager;
 	
 	@Override
 	public void onEnable() {
@@ -34,7 +37,7 @@ public class MINTDuels extends JavaPlugin {
 	}
 
 	private void registerListeners() {
-
+		getServer().getPluginManager().registerEvents(new GameListener(instance), instance);
 	}
 
 	private void registerManagers() {
@@ -42,12 +45,17 @@ public class MINTDuels extends JavaPlugin {
 		this.kitManager = new KitManager(instance);
 		this.duelManager = new DuelManager(instance); 
 		this.langManager = new LangManager(instance);
+		this.playerManager = new PlayerManager();
 		this.configManager = new ConfigManager(instance);
 		this.commandManager = new CommandManager(instance);
 	}
 
 	public static MINTDuels get() {
 		return instance;
+	}
+	
+	public PlayerManager getPlayerManager() {
+		return playerManager;
 	}
 	
 	public KitManager getKitManager() {

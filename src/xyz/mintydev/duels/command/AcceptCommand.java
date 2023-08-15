@@ -39,15 +39,19 @@ public class AcceptCommand extends Command {
 			return false;
 		}
 		
+		if(main.getDuelManager().getGame(player) != null) {
+			player.sendMessage(LangManager.getMessage("commands.errors.ingame"));
+			return false;
+		}
+		
 		final Player target = Bukkit.getPlayer(playerName);
 		
-		if(main.getDuelManager().getInvite(target, player) == null) {
+		if(main.getDuelManager().getInvite(target, player, true) == null) {
 			player.sendMessage(LangManager.getMessage("commands.accept.errors.no-invite"));
 			return false;
 		}
 		
-		final DuelInvite invite = main.getDuelManager().getInvite(target, player);
-		
+		final DuelInvite invite = main.getDuelManager().getInvite(target, player, true);
 		main.getDuelManager().acceptInvite(invite);
 		return true;
 	}

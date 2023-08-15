@@ -38,9 +38,14 @@ public class DuelCommand extends Command {
 			return false;
 		}
 		
+		if(main.getDuelManager().getGame(player) != null) {
+			player.sendMessage(LangManager.getMessage("commands.errors.ingame"));
+			return false;
+		}
+		
 		final Player target = Bukkit.getPlayer(playerName);
 		
-		if(main.getDuelManager().getInvite(player, target) != null) {
+		if(main.getDuelManager().getInvite(player, target, true) != null) {
 			player.sendMessage(LangManager.getMessage("commands.invite.errors.already-invited"));
 			return false;
 		}

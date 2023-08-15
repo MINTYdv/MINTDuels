@@ -36,13 +36,13 @@ public class Kit {
 			player.getInventory().setHelmet(armorContents.get(ArmorPiece.HELMET));
 		}
 		if(armorContents.get(ArmorPiece.CHESTPLATE) != null) {
-			player.getInventory().setHelmet(armorContents.get(ArmorPiece.CHESTPLATE));
+			player.getInventory().setChestplate(armorContents.get(ArmorPiece.CHESTPLATE));
 		}
 		if(armorContents.get(ArmorPiece.LEGGINGS) != null) {
-			player.getInventory().setHelmet(armorContents.get(ArmorPiece.LEGGINGS));
+			player.getInventory().setLeggings(armorContents.get(ArmorPiece.LEGGINGS));
 		}
 		if(armorContents.get(ArmorPiece.BOOTS) != null) {
-			player.getInventory().setHelmet(armorContents.get(ArmorPiece.BOOTS));
+			player.getInventory().setBoots(armorContents.get(ArmorPiece.BOOTS));
 		}
 	}
 	

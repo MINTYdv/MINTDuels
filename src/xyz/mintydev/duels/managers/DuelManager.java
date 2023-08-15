@@ -5,12 +5,18 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.bukkit.GameMode;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.Player;
 
 import xyz.mintydev.duels.MINTDuels;
 import xyz.mintydev.duels.core.Arena;
 import xyz.mintydev.duels.core.DuelGame;
 import xyz.mintydev.duels.core.DuelInvite;
+import xyz.mintydev.duels.core.DuelPlayer;
+import xyz.mintydev.duels.core.EndReason;
+import xyz.mintydev.duels.core.GameState;
 import xyz.mintydev.duels.core.Kit;
 
 public class DuelManager {
@@ -27,7 +33,7 @@ public class DuelManager {
 	}
 	
 	public void sendInvite(Player sender, Player target, Kit kit) {
-		if(getInvite(sender, target) != null) {
+		if(getInvite(sender, target, true) != null) {
 			sender.sendMessage(LangManager.getMessage("commands.invite.errors.already-invited"));
 			return;
 		}
@@ -64,9 +70,6 @@ public class DuelManager {
 		
 		arena.setUsed(true);
 		
-		sender.teleport(arena.getSpawn1());
-		target.teleport(arena.getSpawn2());
-		
 		List<Player> players = new ArrayList<>();
 		players.add(sender);
 		players.add(target);
@@ -75,9 +78,53 @@ public class DuelManager {
 		games.add(game);
 		
 		for(Player player : players) {
+			
+			DuelPlayer dPlayer = main.getPlayerManager().getPlayer(player);
+			dPlayer.setPreviousGameMode(player.getGameMode());
+			dPlayer.setPreviousInventory(player.getInventory().getContents());
+			dPlayer.setPreviousLocation(player.getLocation());
+			
+			AttributeInstance inst = player.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+			player.setHealth(inst.getBaseValue());
+			player.setFoodLevel(20);
 			player.getInventory().clear();
 			game.getKit().give(player);
+			player.setGameMode(GameMode.SURVIVAL);
 		}
+		sender.teleport(arena.getSpawn1());
+		target.teleport(arena.getSpawn2());
+		
+		invites.remove(invite);
+	}
+	
+	public void gameWon(DuelGame game, Player winner) {
+		game.setState(GameState.FINISHED);
+		game.setWinner(winner);
+		
+		String msg = LangManager.getMessage("duel.winner");
+		msg = msg.replaceAll("%winner%", winner.getName());
+		msg = msg.replaceAll("%looser%", game.getOpponent(winner).getName());
+		msg = msg.replaceAll("%kit%", game.getKit().getDisplayName());
+		
+		game.broadcast(msg);
+	}
+	
+	public void endGame(DuelGame game, EndReason reason, Player winner) {
+		
+		for(Player player : game.getPlayers()) {
+			final DuelPlayer dPlayer = main.getPlayerManager().getPlayer(player);
+			
+			if(player != null && player.isOnline()) {
+				player.setGameMode(dPlayer.getPreviousGameMode());
+				player.getInventory().setContents(dPlayer.getPreviousInventory());
+				player.teleport(dPlayer.getPreviousLocation());
+				AttributeInstance inst = player.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+				player.setHealth(inst.getBaseValue());
+				player.setFoodLevel(20);
+			}
+		}
+		
+		game.getTask().cancel();
 	}
 	
 	public void addToQueue(DuelInvite invite) {
@@ -91,8 +138,9 @@ public class DuelManager {
 		return null;
 	}
 	
-	public DuelInvite getInvite(Player sender, Player target) {
+	public DuelInvite getInvite(Player sender, Player target, boolean onlyActive) {
 		for(DuelInvite invite : invites) {
+			if(onlyActive && invite.isAccepted()) continue;
 			if(invite.getSender().equals(sender) && invite.getTarget().equals(target)) return invite;
 		}
 		return null;

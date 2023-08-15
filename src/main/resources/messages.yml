@@ -1,3 +1,7 @@
+duel:
+  start-timer: "&aThe game will start in %timer%..."
+  fight: "&aFight!"
+  winner: "&b%winner% &awon the fight against &b%looser% &a! GG's! &7(Kit: %kit%&7)"
 commands:
   accept:
     successfully: "&aYou have accepted &b%sender%'s &aduel request. Teleporting..."
@@ -5,13 +9,14 @@ commands:
       no-invite: "&cError: You don't have a duel invite coming from this player."
   invite:
     accepted: "&b%target% &ahas accepted your duel request. Teleporting..."
-    sent: "&aYou successfully sent a duel invite to &b%target%&a. Wait for him to accept it.. &7(Kit: %kit%)"
-    received: "&aYou have received a duel invite from &b%sender%&a. Do &b/duel accept %sender% &ato accept the request. &7(Kit: %kit%)"
+    sent: "&aYou successfully sent a duel invite to &b%target%&a. Wait for him to accept it.. &7(Kit: %kit%&7)"
+    received: "&aYou have received a duel invite from &b%sender%&a. Do &b/duel accept %sender% &ato accept the request. &7(Kit: %kit%&7)"
     errors:
       already-invited: "&cError: You have already sent a duel invite to this player."
       yourself: "&cError: You can't duel yourself."
       invalid-kit: "&cError: The kit provided is invalid."
   errors:
+    ingame: "&cError: You can't execute this command while in a game."
     no-player: "&cError: Could not find a player with that username"
-    no-permission: "&cError: You don't have the required permission. (%perm%)"
+    no-permission: "&cError: You don't have the required permission. (%perm%&c)"
     not-player: "&cError: You must be a player to execute this command."
