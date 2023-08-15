@@ -32,7 +32,7 @@ public class CommandManager implements CommandExecutor {
 		retrieveCommandMap();
 		
 		/* Register the plugin's commands */
-		addCommand(new DuelCommand("history"));
+		addCommand(new DuelCommand("duel"));
 		
 		registerCommands();
 	}
