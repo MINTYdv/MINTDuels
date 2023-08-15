@@ -1,0 +1,26 @@
+arenas:
+  arena_one:
+    name: "&6&lArena 1"
+    world: "world"
+    boundaries:
+      1:
+        world: "world"
+        x: 0
+        y: 0
+        z: 0
+      2:
+        world: "world"
+        x: 0
+        y: 0
+        z: 0
+    spawns:
+      1:
+        world: "world"
+        x: 0
+        y: 0
+        z: 0
+      2:
+        world: "world"
+        x: 0
+        y: 0
+        z: 0
