@@ -32,11 +32,6 @@ public class DuelCommand extends Command {
 		
 		final Player player = (Player) sender;
 		
-		if(args == null || args.length < 2) {
-			wrongUsage(sender, label);
-			return false;
-		}
-		
 		final String playerName = args[0];
 		if(Bukkit.getPlayer(playerName) == null) {
 			player.sendMessage(LangManager.getMessage("commands.errors.no-player"));
@@ -50,13 +45,18 @@ public class DuelCommand extends Command {
 			return false;
 		}
 		
+		if(player.equals(target)) {
+			player.sendMessage(LangManager.getMessage("commands.invite.errors.yourself"));
+			return false;
+		}
+		
 		Kit kit = null;
 		
 		if(args.length >= 2) {
 			final String kitID = args[1];
 			kit = main.getKitManager().getByID(kitID);
 			if(kit == null) {
-				player.sendMessage(LangManager.getMessage("commands.duel.errors.invalid-kit"));
+				player.sendMessage(LangManager.getMessage("commands.invite.errors.invalid-kit"));
 				return false;
 			}
 		}

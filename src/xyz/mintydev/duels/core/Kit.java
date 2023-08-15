@@ -1,7 +1,9 @@
 package xyz.mintydev.duels.core;
 
 import java.util.Map;
+import java.util.Map.Entry;
 
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import xyz.mintydev.duels.util.ArmorPiece;
@@ -21,6 +23,29 @@ public class Kit {
 		this.isDefault = isDefault;
 	}
 
+	public void give(Player player) {
+		
+		for(Entry<Integer, ItemStack> itemEntry : inventoryContents.entrySet()) {
+			final Integer slot = itemEntry.getKey();
+			final ItemStack item = itemEntry.getValue();
+			
+			player.getInventory().setItem(slot, item);
+		}
+		
+		if(armorContents.get(ArmorPiece.HELMET) != null) {
+			player.getInventory().setHelmet(armorContents.get(ArmorPiece.HELMET));
+		}
+		if(armorContents.get(ArmorPiece.CHESTPLATE) != null) {
+			player.getInventory().setHelmet(armorContents.get(ArmorPiece.CHESTPLATE));
+		}
+		if(armorContents.get(ArmorPiece.LEGGINGS) != null) {
+			player.getInventory().setHelmet(armorContents.get(ArmorPiece.LEGGINGS));
+		}
+		if(armorContents.get(ArmorPiece.BOOTS) != null) {
+			player.getInventory().setHelmet(armorContents.get(ArmorPiece.BOOTS));
+		}
+	}
+	
 	public String getId() {
 		return id;
 	}

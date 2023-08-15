@@ -3,15 +3,14 @@ commands:
     successfully: "&aYou have accepted &b%sender%'s &aduel request. Teleporting..."
     errors:
       no-invite: "&cError: You don't have a duel invite coming from this player."
-  duel:
-    errors:
-      invalid-kit: "&cError: The kit provided is invalid."
   invite:
     accepted: "&b%target% &ahas accepted your duel request. Teleporting..."
     sent: "&aYou successfully sent a duel invite to &b%target%&a. Wait for him to accept it.. &7(Kit: %kit%)"
     received: "&aYou have received a duel invite from &b%sender%&a. Do &b/duel accept %sender% &ato accept the request. &7(Kit: %kit%)"
     errors:
       already-invited: "&cError: You have already sent a duel invite to this player."
+      yourself: "&cError: You can't duel yourself."
+      invalid-kit: "&cError: The kit provided is invalid."
   errors:
     no-player: "&cError: Could not find a player with that username"
     no-permission: "&cError: You don't have the required permission. (%perm%)"

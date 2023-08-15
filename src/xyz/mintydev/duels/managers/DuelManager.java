@@ -73,6 +73,11 @@ public class DuelManager {
 		
 		final DuelGame game = new DuelGame(arena, invite.getKit(), players);
 		games.add(game);
+		
+		for(Player player : players) {
+			player.getInventory().clear();
+			game.getKit().give(player);
+		}
 	}
 	
 	public void addToQueue(DuelInvite invite) {

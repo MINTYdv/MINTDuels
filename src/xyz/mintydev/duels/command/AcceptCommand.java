@@ -33,11 +33,6 @@ public class AcceptCommand extends Command {
 		
 		final Player player = (Player) sender;
 		
-		if(args == null || args.length < 1) {
-			wrongUsage(sender, label);
-			return false;
-		}
-		
 		final String playerName = args[0];
 		if(Bukkit.getPlayer(playerName) == null) {
 			player.sendMessage(LangManager.getMessage("commands.errors.no-player"));
