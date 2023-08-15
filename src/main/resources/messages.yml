@@ -1,3 +1,4 @@
 commands:
   errors:
     no-permission: "&cError: You don't have the required permission. (%perm%)"
+    not-player: "&cError: You must be a player to execute this command."
