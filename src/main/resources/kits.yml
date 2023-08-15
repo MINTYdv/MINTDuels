@@ -1,0 +1,21 @@
+kits:
+  default:
+    name: "&6&lDefault Kit"
+    armor:
+      helmet:
+        material: "DIAMOND_HELMET"
+      chestplate:
+        material: "DIAMOND_CHESTPLATE"
+      leggings:
+        material: "DIAMOND_LEGGINGS"
+      boots:
+        material: "DIAMOND_BOOTS"
+    inventory:
+      1:
+        slot: 0
+        material: "DIAMOND_SWORD"
+        amount: 1
+      2:
+        slot: 1
+        material: "GOLDEN_APPLE"
+        amount: 8

@@ -11,16 +11,22 @@ public class Kit {
 	private final String id, displayName;
 	private final Map<ArmorPiece, ItemStack> armorContents;
 	private final Map<Integer, ItemStack> inventoryContents;
+	private final boolean isDefault;
 	
-	public Kit(String id, String displayName, Map<ArmorPiece, ItemStack> armorContents, Map<Integer, ItemStack> inventoryContents) {
+	public Kit(String id, String displayName, Map<ArmorPiece, ItemStack> armorContents, Map<Integer, ItemStack> inventoryContents, boolean isDefault) {
 		this.id = id;
 		this.displayName = displayName;
 		this.armorContents = armorContents;
 		this.inventoryContents = inventoryContents;
+		this.isDefault = isDefault;
 	}
 
 	public String getId() {
 		return id;
+	}
+	
+	public boolean isDefault() {
+		return isDefault;
 	}
 	
 	public String getDisplayName() {
