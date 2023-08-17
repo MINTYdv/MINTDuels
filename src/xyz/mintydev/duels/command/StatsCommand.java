@@ -1,7 +1,5 @@
 package xyz.mintydev.duels.command;
 
-import java.util.UUID;
-
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -9,7 +7,6 @@ import org.bukkit.entity.Player;
 import xyz.mintydev.duels.MINTDuels;
 import xyz.mintydev.duels.core.DuelPlayer;
 import xyz.mintydev.duels.managers.LangManager;
-import xyz.mintydev.duels.util.UUIDFetcher;
 import xyz.mintydev.duels.util.command.Command;
 import xyz.mintydev.duels.util.command.PermissionRequirement;
 import xyz.mintydev.duels.util.command.PlayerRequirement;

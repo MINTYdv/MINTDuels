@@ -43,6 +43,7 @@ public class MINTDuels extends JavaPlugin {
 		queueManager.shutdown();
 		duelManager.shutdown();
 		playerManager.shutdown();
+		databaseManager.shutdown();
 		
 		getLogger().info("Plugin disabled !");
 	}

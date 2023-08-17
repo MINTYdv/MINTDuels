@@ -134,6 +134,7 @@ public class DuelManager {
 		game.getArena().setUsed(false);
 		
 		game.getTask().cancel();
+		games.remove(game);
 	}
 	
 	public void shutdown() {
