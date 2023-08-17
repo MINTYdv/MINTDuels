@@ -41,6 +41,8 @@ public class ArenaManager extends ConfigFileHandler {
 	
 	private void loadArenas() {
 		final ConfigurationSection sec = getDataFile().getConfigurationSection("arenas");
+		if(sec == null || sec.getKeys(false) == null) return;
+		
 		for(String arenaID : sec.getKeys(false)) {
 			
 			if(getArena(arenaID) != null) {

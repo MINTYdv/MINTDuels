@@ -1,6 +1,8 @@
 package xyz.mintydev.duels.core;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.bukkit.entity.Player;
 
@@ -24,6 +26,13 @@ public class DuelInvite {
 		base = base.replaceAll("%target%", target.getName());
 		base = base.replaceAll("%kit%", kit.getDisplayName());
 		return base;
+	}
+	
+	public List<Player> getPlayers(){
+		List<Player> res = new ArrayList<>();
+		res.add(sender);
+		res.add(target);
+		return res;
 	}
 	
 	public boolean isAccepted() {

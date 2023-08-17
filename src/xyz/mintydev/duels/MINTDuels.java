@@ -3,6 +3,7 @@ package xyz.mintydev.duels;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import xyz.mintydev.duels.listener.GameListener;
+import xyz.mintydev.duels.listener.QueueListener;
 import xyz.mintydev.duels.managers.ArenaManager;
 import xyz.mintydev.duels.managers.CommandManager;
 import xyz.mintydev.duels.managers.ConfigManager;
@@ -10,6 +11,7 @@ import xyz.mintydev.duels.managers.DuelManager;
 import xyz.mintydev.duels.managers.KitManager;
 import xyz.mintydev.duels.managers.LangManager;
 import xyz.mintydev.duels.managers.PlayerManager;
+import xyz.mintydev.duels.managers.QueueManager;
 
 public class MINTDuels extends JavaPlugin {
 
@@ -22,6 +24,7 @@ public class MINTDuels extends JavaPlugin {
 	private ConfigManager configManager;
 	private CommandManager commandManager;
 	private PlayerManager playerManager;
+	private QueueManager queueManager;
 	
 	@Override
 	public void onEnable() {
@@ -29,15 +32,19 @@ public class MINTDuels extends JavaPlugin {
 		
 		registerManagers();
 		registerListeners();
-		registerCommands();
+		
+		getLogger().info("Plugin enabled !");
 	}
 	
-	private void registerCommands() {
-
+	@Override
+	public void onDisable() {
+		getDuelManager().shutdown();
+		
+		getLogger().info("Plugin disabled !");
 	}
-
 	private void registerListeners() {
 		getServer().getPluginManager().registerEvents(new GameListener(instance), instance);
+		getServer().getPluginManager().registerEvents(new QueueListener(instance), instance);
 	}
 
 	private void registerManagers() {
@@ -48,6 +55,7 @@ public class MINTDuels extends JavaPlugin {
 		this.playerManager = new PlayerManager();
 		this.configManager = new ConfigManager(instance);
 		this.commandManager = new CommandManager(instance);
+		this.queueManager = new QueueManager(instance);
 	}
 
 	public static MINTDuels get() {
@@ -68,6 +76,10 @@ public class MINTDuels extends JavaPlugin {
 	
 	public ArenaManager getArenaManager() {
 		return arenaManager;
+	}
+	
+	public QueueManager getQueueManager() {
+		return queueManager;
 	}
 	
 	public LangManager getLangManager() {

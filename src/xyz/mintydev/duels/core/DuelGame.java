@@ -5,6 +5,8 @@ import java.util.List;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import xyz.mintydev.duels.MINTDuels;
 import xyz.mintydev.duels.runnable.GameRunnable;
 
@@ -33,8 +35,14 @@ public class DuelGame {
 		return null;
 	}
 	
-	public void broadcast(String msg) {
-		for(Player player : players) player.sendMessage(msg);
+	public void broadcast(String msg, boolean actionBar) {
+		for(Player player : players) {
+			if(actionBar) {
+				player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(msg));
+			} else {
+				player.sendMessage(msg);
+			}
+		}
 	}
 	
 	public Player getWinner() {

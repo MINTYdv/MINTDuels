@@ -37,9 +37,11 @@ public class GameRunnable extends BukkitRunnable {
 		if(game.getState() == GameState.STARTING) {
 			if(getTimer() <= 0) {
 				game.setState(GameState.ONGOING);
-				game.broadcast(LangManager.getMessage("duel.fight").replaceAll("%timer%", newTimer+""));
+				game.broadcast(LangManager.getMessage("duel.fight").replaceAll("%timer%", newTimer+""), true);
+				game.broadcast(LangManager.getMessage("duel.fight").replaceAll("%timer%", newTimer+""), false);
 			} else {
-				game.broadcast(LangManager.getMessage("duel.start-timer").replaceAll("%timer%", newTimer+""));
+				game.broadcast(LangManager.getMessage("duel.start-timer").replaceAll("%timer%", newTimer+""), true);
+				game.broadcast(LangManager.getMessage("duel.start-timer").replaceAll("%timer%", newTimer+""), false);
 			}
 		} else if(game.getState() == GameState.ONGOING) {
 			if(getTimer() <= 0) {

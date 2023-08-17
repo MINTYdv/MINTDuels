@@ -9,6 +9,7 @@ import org.bukkit.GameMode;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitTask;
 
 import xyz.mintydev.duels.MINTDuels;
 import xyz.mintydev.duels.core.Arena;
@@ -18,6 +19,7 @@ import xyz.mintydev.duels.core.DuelPlayer;
 import xyz.mintydev.duels.core.EndReason;
 import xyz.mintydev.duels.core.GameState;
 import xyz.mintydev.duels.core.Kit;
+import xyz.mintydev.duels.runnable.QueueRunnable;
 
 public class DuelManager {
 
@@ -27,9 +29,11 @@ public class DuelManager {
 	private Set<DuelInvite> invites = new HashSet<>();
 	
 	private List<DuelInvite> arenaQueue = new ArrayList<>();
+	private BukkitTask queueTask;
 	
 	public DuelManager(MINTDuels main) {
 		this.main = main;
+		queueTask = new QueueRunnable(main).runTaskTimer(main, 0, 20);
 	}
 	
 	public void sendInvite(Player sender, Player target, Kit kit) {
@@ -51,23 +55,22 @@ public class DuelManager {
 		final Player sender = invite.getSender();
 		final Player target = invite.getTarget();
 		
-		target.sendMessage(invite.replacePlaceholders(LangManager.getMessage("commands.accept.successfully")));
-		sender.sendMessage(invite.replacePlaceholders(LangManager.getMessage("commands.invite.accepted")));
-		
-		invite.setAccepted(true);
-		
 		final Arena available = main.getArenaManager().getAvailableArena();
-		if(available == null) {
-			addToQueue(invite);
+		invite.setAccepted(true);
+		if(available == null || arenaQueue.size() > 0) {
+			main.getQueueManager().addToQueue(invite);
+			target.sendMessage(invite.replacePlaceholders(LangManager.getMessage("commands.accept.successfully.queue")));
+			sender.sendMessage(invite.replacePlaceholders(LangManager.getMessage("commands.invite.accepted.queue")));
 		} else {
 			loadGame(invite, available);
+			target.sendMessage(invite.replacePlaceholders(LangManager.getMessage("commands.accept.successfully.game")));
+			sender.sendMessage(invite.replacePlaceholders(LangManager.getMessage("commands.invite.accepted.game")));
 		}
 	}
 	
 	public void loadGame(DuelInvite invite, Arena arena) {
 		final Player sender = invite.getSender();
 		final Player target = invite.getTarget();
-		
 		arena.setUsed(true);
 		
 		List<Player> players = new ArrayList<>();
@@ -107,7 +110,7 @@ public class DuelManager {
 		msg = msg.replaceAll("%looser%", game.getOpponent(winner).getName());
 		msg = msg.replaceAll("%kit%", game.getKit().getDisplayName());
 		
-		game.broadcast(msg);
+		game.broadcast(msg, false);
 	}
 	
 	public void endGame(DuelGame game, EndReason reason, Player winner) {
@@ -130,10 +133,6 @@ public class DuelManager {
 		game.getTask().cancel();
 	}
 	
-	public void addToQueue(DuelInvite invite) {
-		arenaQueue.add(invite);
-	}
-	
 	public DuelGame getGame(Player player) {
 		for(DuelGame game : games) {
 			if(game.getPlayers().contains(player)) return game;
@@ -147,6 +146,15 @@ public class DuelManager {
 			if(invite.getSender().equals(sender) && invite.getTarget().equals(target)) return invite;
 		}
 		return null;
+	}
+	
+	public void shutdown() {
+		if(queueTask.isCancelled()) return;
+		queueTask.cancel();
+	}
+	
+	public BukkitTask getQueueTask() {
+		return queueTask;
 	}
 	
 	public List<DuelInvite> getArenaQueue() {
