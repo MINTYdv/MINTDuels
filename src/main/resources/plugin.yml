@@ -2,3 +2,4 @@ name: MINTDuels
 version: 1.0.0
 author: MINTY
 main: xyz.mintydev.duels.MINTDuels
+api-version: 1.16

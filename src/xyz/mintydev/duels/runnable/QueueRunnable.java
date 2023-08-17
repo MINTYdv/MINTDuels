@@ -24,7 +24,7 @@ public class QueueRunnable extends BukkitRunnable {
 	@Override
 	public void run() {
 		
-		final List<DuelInvite> copy = new ArrayList<>(main.getDuelManager().getArenaQueue());
+		final List<DuelInvite> copy = new ArrayList<>(main.getQueueManager().getArenaQueue());
 		
 		for(int i = 0; i < copy.size(); i++) {
 			
@@ -36,7 +36,7 @@ public class QueueRunnable extends BukkitRunnable {
 				invite.setAccepted(true);
 				
 				main.getDuelManager().loadGame(invite, available);
-				main.getDuelManager().getArenaQueue().remove(invite);
+				main.getQueueManager().getArenaQueue().remove(invite);
 			} else {
 				String msg = LangManager.getMessage("duel.queue.actionbar");
 				msg = msg.replaceAll("%position%", (i+1) + "");

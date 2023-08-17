@@ -38,7 +38,8 @@ public class MINTDuels extends JavaPlugin {
 	
 	@Override
 	public void onDisable() {
-		getDuelManager().shutdown();
+		queueManager.shutdown();
+		duelManager.shutdown();
 		
 		getLogger().info("Plugin disabled !");
 	}

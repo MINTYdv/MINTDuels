@@ -4,12 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.GameMode;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
 import xyz.mintydev.duels.MINTDuels;
 import xyz.mintydev.duels.core.DuelInvite;
 import xyz.mintydev.duels.core.DuelPlayer;
+import xyz.mintydev.duels.runnable.QueueRunnable;
+import xyz.mintydev.duels.util.ItemBuilder;
 
 public class QueueManager {
 
@@ -17,8 +21,11 @@ public class QueueManager {
 	
 	private List<DuelInvite> arenaQueue = new ArrayList<>();
 	
+	private BukkitTask queueTask;
+	
 	public QueueManager(MINTDuels main) {
 		this.main = main;
+		queueTask = new QueueRunnable(main).runTaskTimer(main, 0, 20);
 	}
 	
 	public void addToQueue(DuelInvite invite) {
@@ -33,6 +40,8 @@ public class QueueManager {
 			
 			player.getInventory().clear();
 			player.setGameMode(GameMode.SURVIVAL);
+			
+			player.getInventory().setItem(8, ItemBuilder.createItem(Material.OAK_DOOR, 1, LangManager.getMessage("duel.queue.leave-item.name"), LangManager.getMessageList("duel.queue.leave-item.lore")));
 		}
 	}
 	
@@ -54,6 +63,14 @@ public class QueueManager {
 		}
 	}
 	
+	public void shutdown() {
+		final List<DuelInvite> copy = new ArrayList<>(getArenaQueue());
+		
+		for(DuelInvite invite : copy) {
+			cancelQueue(invite);
+		}
+	}
+	
 	public boolean isInQueue(Player player) {
 		return getQueueInvite(player) != null;
 	}
@@ -65,8 +82,12 @@ public class QueueManager {
 		return null;
 	}
 
+	public BukkitTask getQueueTask() {
+		return queueTask;
+	}
+	
 	public List<DuelInvite> getArenaQueue() {
 		return arenaQueue;
 	}
-	
+
 }

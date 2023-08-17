@@ -21,6 +21,11 @@ public class DuelInvite {
 		accepted = false;
 	}
 	
+	public Player getOpponent(Player target) {
+		for(Player player : getPlayers()) if(!(player.equals(target))) return player;
+		return null;
+	}
+	
 	public String replacePlaceholders(String base) {
 		base = base.replaceAll("%sender%", sender.getName());
 		base = base.replaceAll("%target%", target.getName());

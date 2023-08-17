@@ -1,6 +1,15 @@
 duel:
   queue:
+    leave: "&cYou successfully left the queue."
+    player-left: "&cYour opponent left the queue so the invite has been cancelled."
     actionbar: "&cYou are currently queuing for a duel... &7(Queue position: %position%/%size%)"
+    leave-item:
+      name: "&c&lLeave Queue"
+      lore:
+        - ""
+        - "&7Click here to leave your current"
+        - "&7queue for a duel."
+        - ""
   start-timer: "&aThe game will start in %timer%..."
   fight: "&aFight!"
   winner: "&b%winner% &awon the fight against &b%looser% &a! GG's! &7(Kit: %kit%&7)"
