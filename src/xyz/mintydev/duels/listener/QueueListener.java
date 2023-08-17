@@ -62,6 +62,10 @@ public class QueueListener implements Listener {
 			
 			// cancel queue
 			main.getQueueManager().cancelQueue(invite);
+			final Player opponent = invite.getOpponent(player);
+			if(opponent != null && opponent.isOnline()) {
+				opponent.sendMessage(LangManager.getMessage("duel.queue.player-left"));
+			}
 		}
 	}
 
