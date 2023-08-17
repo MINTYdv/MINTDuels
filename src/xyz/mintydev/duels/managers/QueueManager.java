@@ -21,6 +21,21 @@ public class QueueManager {
 		this.main = main;
 	}
 	
+	public void addToQueue(DuelInvite invite) {
+		if(arenaQueue.contains(invite)) return;
+		
+		arenaQueue.add(invite);
+		
+		for(Player player : invite.getPlayers()) {
+			final DuelPlayer dPlayer = main.getPlayerManager().getPlayer(player);
+			dPlayer.setPreviousGameMode(player.getGameMode());
+			dPlayer.setPreviousInventory(player.getInventory().getContents());
+			
+			player.getInventory().clear();
+			player.setGameMode(GameMode.SURVIVAL);
+		}
+	}
+	
 	public void cancelQueue(DuelInvite invite) {
 		if(!(arenaQueue.contains(invite))) return;
 		
@@ -49,20 +64,7 @@ public class QueueManager {
 		}
 		return null;
 	}
-	
-	public void addToQueue(DuelInvite invite) {
-		arenaQueue.add(invite);
-		
-		for(Player player : invite.getPlayers()) {
-			final DuelPlayer dPlayer = main.getPlayerManager().getPlayer(player);
-			dPlayer.setPreviousGameMode(player.getGameMode());
-			dPlayer.setPreviousInventory(player.getInventory().getContents());
-			
-			player.getInventory().clear();
-			player.setGameMode(GameMode.SURVIVAL);
-		}
-	}
-	
+
 	public List<DuelInvite> getArenaQueue() {
 		return arenaQueue;
 	}

@@ -44,6 +44,11 @@ public class AcceptCommand extends Command {
 			return false;
 		}
 		
+		if(main.getQueueManager().isInQueue(player)) {
+			player.sendMessage(LangManager.getMessage("commands.errors.inqueue"));
+			return false;
+		}
+		
 		final Player target = Bukkit.getPlayer(playerName);
 		
 		if(main.getDuelManager().getInvite(target, player, true) == null) {

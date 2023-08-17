@@ -43,6 +43,11 @@ public class DuelCommand extends Command {
 			return false;
 		}
 		
+		if(main.getQueueManager().isInQueue(player)) {
+			player.sendMessage(LangManager.getMessage("commands.errors.inqueue"));
+			return false;
+		}
+		
 		final Player target = Bukkit.getPlayer(playerName);
 		
 		if(main.getDuelManager().getInvite(player, target, true) != null) {
