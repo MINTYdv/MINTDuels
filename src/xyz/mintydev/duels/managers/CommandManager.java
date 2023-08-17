@@ -92,7 +92,7 @@ public class CommandManager implements CommandExecutor {
 				try {
 					cmd.execute(sender, args, label);
 				}catch(Exception e) {
-					sender.sendMessage(LangManager.getMessage("errors.unknown"));
+					sender.sendMessage(LangManager.getMessage("commands.errors.unknown"));
 					e.printStackTrace();
 					return false;
 				}

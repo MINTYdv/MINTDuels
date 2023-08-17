@@ -1,6 +1,5 @@
 package xyz.mintydev.duels.listener;
 
-import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
@@ -16,6 +15,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 import xyz.mintydev.duels.MINTDuels;
 import xyz.mintydev.duels.core.DuelGame;
+import xyz.mintydev.duels.core.DuelPlayer;
 import xyz.mintydev.duels.core.EndReason;
 import xyz.mintydev.duels.core.GameState;
 
@@ -32,6 +32,12 @@ public class GameListener implements Listener {
 		if(game == null) return;
 		
 		event.setCancelled(true);
+	}
+	
+	@EventHandler
+	public void onSimpleQuit(PlayerQuitEvent e) {
+		final Player player = e.getPlayer();
+		main.getPlayerManager().savePlayer(player.getUniqueId());
 	}
 	
 	@EventHandler
@@ -59,6 +65,9 @@ public class GameListener implements Listener {
 			
 			final Player winner = game.getOpponent(player);
 			main.getDuelManager().gameWon(game, winner);
+			
+			final DuelPlayer dOpponent = main.getPlayerManager().getPlayer(player);
+			dOpponent.setDeaths(dOpponent.getDeaths()+1);
 		}
 	}
 	

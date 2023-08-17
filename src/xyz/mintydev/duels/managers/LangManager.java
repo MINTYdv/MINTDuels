@@ -3,6 +3,8 @@ package xyz.mintydev.duels.managers;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Bukkit;
+
 import xyz.mintydev.duels.MINTDuels;
 
 public class LangManager extends ConfigFileHandler {

@@ -29,6 +29,7 @@ public class QueueRunnable extends BukkitRunnable {
 		
 		List<DuelInvite> invitesCopy = new ArrayList<>(main.getDuelManager().getInvites());
 		for(DuelInvite invite : invitesCopy) {
+			if(invite.isAccepted()) continue;
 			final long diff = now.getTime()-invite.getDate().getTime();
 			
 			if(diff >= 1000*60) {

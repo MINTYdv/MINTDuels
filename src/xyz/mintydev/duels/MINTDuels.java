@@ -42,6 +42,7 @@ public class MINTDuels extends JavaPlugin {
 	public void onDisable() {
 		queueManager.shutdown();
 		duelManager.shutdown();
+		playerManager.shutdown();
 		
 		getLogger().info("Plugin disabled !");
 	}
@@ -55,7 +56,7 @@ public class MINTDuels extends JavaPlugin {
 		this.kitManager = new KitManager(instance);
 		this.duelManager = new DuelManager(instance); 
 		this.langManager = new LangManager(instance);
-		this.playerManager = new PlayerManager();
+		this.playerManager = new PlayerManager(instance);
 		this.configManager = new ConfigManager(instance);
 		this.commandManager = new CommandManager(instance);
 		this.queueManager = new QueueManager(instance);

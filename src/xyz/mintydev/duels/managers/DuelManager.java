@@ -99,6 +99,15 @@ public class DuelManager {
 		game.setState(GameState.FINISHED);
 		game.setWinner(winner);
 		
+		final DuelPlayer dWinner = main.getPlayerManager().getPlayer(winner);
+		dWinner.setWins(dWinner.getWins()+1);
+		dWinner.setStreak(dWinner.getStreak()+1);
+		dWinner.setKills(dWinner.getKills()+1);
+		
+		final DuelPlayer dOpponent = main.getPlayerManager().getPlayer(game.getOpponent(winner));
+		dOpponent.setLoss(dOpponent.getLoss()+1);
+		dOpponent.setStreak(0);
+		
 		String msg = LangManager.getMessage("duel.winner");
 		msg = msg.replaceAll("%winner%", winner.getName());
 		msg = msg.replaceAll("%looser%", game.getOpponent(winner).getName());

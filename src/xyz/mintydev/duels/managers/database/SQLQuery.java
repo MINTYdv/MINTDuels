@@ -3,34 +3,24 @@ package xyz.mintydev.duels.managers.database;
 public enum SQLQuery {
 	
 	CREATE_TABLE(
-        "CREATE TABLE IF NOT EXISTS `duels_players` ("+
+        "CREATE TABLE IF NOT EXISTS `duels_profiles` ("+
         "`uuid` VARCHAR(255) NULL DEFAULT NULL," +
-        "`name` VARCHAR(255) NULL DEFAULT NULL," +
-        "`operator` VARCHAR(255) NULL DEFAULT NULL," +
-        "`operatorName` VARCHAR(255) NULL DEFAULT NULL," +
-        "`start` BIGINT DEFAULT NULL," +
-        "`end` BIGINT DEFAULT NULL," +
-        "`reason` VARCHAR(255) NULL DEFAULT NULL," +
-        "PRIMARY KEY (`id`))"
+        "`name` VARCHAR(60) NULL DEFAULT NULL," +
+        "`wins` BIGINT(255) NULL DEFAULT 0," +
+        "`loss` BIGINT(255) NULL DEFAULT 0," +
+        "`kills` BIGINT(255) NULL DEFAULT 0," +
+        "`deaths` BIGINT(255) NULL DEFAULT 0," +
+        "`streak` BIGINT(255) NULL DEFAULT 0," +
+        "PRIMARY KEY (`uuid`))"
 	),
-    INSERT_PUNISHMENT(
-            "INSERT INTO `mp_active` " +
-                    "(`type`, `uuid`, `name`, `operator`, `operatorName`, `start`, `end`, `reason`) " +
-            "VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
+    INSERT_PROFILE(
+            "INSERT INTO `duels_profiles` " +
+                    "(`uuid`, `name`, `wins`, `loss`, `kills`, `deaths`, `streak`) " +
+            "VALUES (?, ?, ?, ?, ?, ?, ?)"
     ),
-    INSERT_PUNISHMENT_HISTORY(
-            "INSERT INTO `mp_expired` " +
-            "(`type`, `uuid`, `name`, `operator`, `operatorName`, `start`, `end`, `reason`) " +
-            "VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
-    ),
-	SELECT_USER_PUNISHMENTS_UUID("SELECT * FROM `mp_active` WHERE `uuid` = ?"),
-	SELECT_EXACT_PUNISHMENT("SELECT * FROM `mp_active` WHERE `uuid` = ? AND `start` = ? AND `type` = ?"),
-	SELECT_USER_PUNISHMENTS_HISTORY_UUID("SELECT * FROM `mp_expired` WHERE `uuid` = ?"),
-	SELECT_ALL_PUNISHMENTS("SELECT * FROM `mp_active`"),
-	DELETE_PUNISHMENT_TYPE("DELETE FROM `mp_active` WHERE `uuid` = ? AND `type` = ?"),
-	DELETE_PUNISHMENT("DELETE FROM `mp_active` WHERE `id` = ?"),
-	SELECT_PUNISHMENTS_ID("SELECT * FROM `mp_active` WHERE `id` = ?"),
-	DELETE_OLD_PUNISHMENTS("DELETE FROM `mp_active` WHERE `end` <= ?");
+    UPDATE_PROFILE("UPDATE `duels_profiles` SET `name` = ?, `wins` = ?, `loss` = ?, `kills` = ?, `deaths` = ?, `streak` = ? WHERE `duels_profiles`.`uuid` = ?"),
+	SELECT_PROFILE("SELECT * FROM `duels_profiles` WHERE `uuid` = ?"),
+	DELETE_PROFILE("DELETE FROM `duels_profiles` WHERE `uuid` = ?");
 	
 	private final String mySqlQuery;
 	
