@@ -1,5 +1,6 @@
 package xyz.mintydev.duels.listener;
 
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
@@ -9,13 +10,13 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
-import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 import xyz.mintydev.duels.MINTDuels;
 import xyz.mintydev.duels.core.DuelGame;
+import xyz.mintydev.duels.core.EndReason;
 import xyz.mintydev.duels.core.GameState;
 
 public class GameListener implements Listener {
@@ -34,26 +35,31 @@ public class GameListener implements Listener {
 	}
 	
 	@EventHandler
-	public void onDeath(PlayerDeathEvent e) {
-		final Player player = e.getEntity();
+	public void onQuit(PlayerQuitEvent e) {
+		final Player player = e.getPlayer();
 		final DuelGame game = main.getDuelManager().getGame(player);
 		if(game == null) return;
-		e.setDroppedExp(0);
-		e.getDrops().clear();
-		e.setDeathMessage(null);
-		
-		new BukkitRunnable() {
-
-			@Override
-			public void run() {
-				player.spigot().respawn();
-				player.setGameMode(GameMode.SPECTATOR);
-			}
-			
-		};
 		
 		final Player winner = game.getOpponent(player);
 		main.getDuelManager().gameWon(game, winner);
+		main.getDuelManager().endGame(game, EndReason.DISCONNECT, null);
+	}
+	
+	@EventHandler
+	public void onDeath(EntityDamageEvent e) {
+		if(!(e.getEntity() instanceof Player)) return;
+		final Player player = (Player) e.getEntity();
+		final DuelGame game = main.getDuelManager().getGame(player);
+		if(game == null) return;
+
+		if((player.getHealth()-e.getDamage()) <= 0) {
+			e.setCancelled(true);
+			player.setGameMode(GameMode.SPECTATOR);
+			player.getInventory().clear();
+			
+			final Player winner = game.getOpponent(player);
+			main.getDuelManager().gameWon(game, winner);
+		}
 	}
 	
 	@EventHandler

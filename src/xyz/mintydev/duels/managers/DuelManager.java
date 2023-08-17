@@ -98,6 +98,7 @@ public class DuelManager {
 	}
 	
 	public void gameWon(DuelGame game, Player winner) {
+		if(game.getState() == GameState.FINISHED) return;
 		game.setState(GameState.FINISHED);
 		game.setWinner(winner);
 		
