@@ -1,6 +1,7 @@
 package xyz.mintydev.duels.runnable;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.bukkit.entity.Player;
@@ -23,6 +24,21 @@ public class QueueRunnable extends BukkitRunnable {
 	
 	@Override
 	public void run() {
+		
+		final Date now = new Date();
+		
+		List<DuelInvite> invitesCopy = new ArrayList<>(main.getDuelManager().getInvites());
+		for(DuelInvite invite : invitesCopy) {
+			final long diff = now.getTime()-invite.getDate().getTime();
+			
+			if(diff >= 1000*60) {
+				// Invite expired (> 60 seconds)
+				if(invite.getSender().isOnline() && invite.getTarget().isOnline()) {
+					invite.getSender().sendMessage(LangManager.getMessage("commands.invite.expired").replaceAll("%target%", invite.getTarget().getName()));
+				}
+				main.getDuelManager().getInvites().remove(invite);
+			}
+		}
 		
 		final List<DuelInvite> copy = new ArrayList<>(main.getQueueManager().getArenaQueue());
 		

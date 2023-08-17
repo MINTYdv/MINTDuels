@@ -6,3 +6,10 @@
 #
 # Plugin Permissions :
 # - mintduels.command.duel - Access to all duels commands (/duel, /accept)
+
+mysql:
+  ip: localhost
+  database: minty
+  user: root
+  password: ""
+  port: 3306

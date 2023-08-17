@@ -12,6 +12,7 @@ import xyz.mintydev.duels.managers.KitManager;
 import xyz.mintydev.duels.managers.LangManager;
 import xyz.mintydev.duels.managers.PlayerManager;
 import xyz.mintydev.duels.managers.QueueManager;
+import xyz.mintydev.duels.managers.database.DatabaseManager;
 
 public class MINTDuels extends JavaPlugin {
 
@@ -25,6 +26,7 @@ public class MINTDuels extends JavaPlugin {
 	private CommandManager commandManager;
 	private PlayerManager playerManager;
 	private QueueManager queueManager;
+	private DatabaseManager databaseManager;
 	
 	@Override
 	public void onEnable() {
@@ -57,10 +59,15 @@ public class MINTDuels extends JavaPlugin {
 		this.configManager = new ConfigManager(instance);
 		this.commandManager = new CommandManager(instance);
 		this.queueManager = new QueueManager(instance);
+		this.databaseManager = new DatabaseManager(instance);
 	}
 
 	public static MINTDuels get() {
 		return instance;
+	}
+	
+	public DatabaseManager getDatabaseManager() {
+		return databaseManager;
 	}
 	
 	public PlayerManager getPlayerManager() {

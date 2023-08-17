@@ -21,6 +21,7 @@ commands:
     errors:
       no-invite: "&cError: You don't have a duel invite coming from this player."
   invite:
+    expired: "&cYour duel request to %target% has not been answered and is now expired."
     accepted: 
       game: "&b%target% &ahas accepted your duel request. Teleporting..."
       queue: "&b%target% &ahas accepted your duel request, but no arena is currently available, you have been placed in a waiting queue and will be teleported soon..."
