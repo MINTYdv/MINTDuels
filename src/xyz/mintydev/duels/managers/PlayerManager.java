@@ -72,7 +72,8 @@ public class PlayerManager {
 	}
 	
 	private void savePlayers() {
-		for(String uuid : cached) {
+		List<String> cachedCopy = new ArrayList<>(cached);
+		for(String uuid : cachedCopy) {
 			savePlayer(UUID.fromString(uuid));
 		}
 	}
@@ -90,6 +91,8 @@ public class PlayerManager {
 				dPlayer.getDeaths(),
 				dPlayer.getStreak(),
 				uuid.toString());
+		
+		cached.remove(uuid.toString());
 	}
 	
 	public void addToCache(Player player) {

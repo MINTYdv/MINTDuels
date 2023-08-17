@@ -14,6 +14,19 @@ duel:
   fight: "&aFight!"
   winner: "&b%winner% &awon the fight against &b%looser% &a! GG's! &7(Kit: %kit%&7)"
 commands:
+  stats:
+    format:
+      - "&6&l%player%'s statistics"
+      - ""
+      - "&eWins: &6%wins%"
+      - "&eLoss: &6%loss%"
+      - ""
+      - "&eKills: &6%kills%"
+      - "&eDeaths: &6%deaths%"
+      - ""
+      - "&eCurrent Win Streak : &6%streak%"
+    errors:
+      no-uuid: "&cError: This player is not registered into Mojang's servers."
   accept:
     successfully: 
       game: "&aYou have accepted &b%sender%'s &aduel request. Teleporting..."

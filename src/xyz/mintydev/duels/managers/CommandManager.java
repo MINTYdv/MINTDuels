@@ -12,6 +12,7 @@ import org.bukkit.command.CommandSender;
 import xyz.mintydev.duels.MINTDuels;
 import xyz.mintydev.duels.command.AcceptCommand;
 import xyz.mintydev.duels.command.DuelCommand;
+import xyz.mintydev.duels.command.StatsCommand;
 import xyz.mintydev.duels.util.command.Command;
 import xyz.mintydev.duels.util.command.CommandRequirement;
 import xyz.mintydev.duels.util.command.FakeCommand;
@@ -35,6 +36,7 @@ public class CommandManager implements CommandExecutor {
 		/* Register the plugin's commands */
 		addCommand(new DuelCommand(main, "duel", "fight", "duels"));
 		addCommand(new AcceptCommand(main, "accept"));
+		addCommand(new StatsCommand(main, "stats", "duelstats"));
 		
 		registerCommands();
 	}

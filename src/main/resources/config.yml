@@ -6,6 +6,7 @@
 #
 # Plugin Permissions :
 # - mintduels.command.duel - Access to all duels commands (/duel, /accept)
+# - mintduels.command.stats - Access to the /stats command
 
 mysql:
   ip: localhost
